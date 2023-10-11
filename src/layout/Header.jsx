@@ -15,10 +15,18 @@ export default function Header() {
           </Link>
         </nav>
       </div>
-
-      <button className="bg-amber-900 hover:bg-amber-800 text-white py-3 px-4 rounded-full cursor-pointer mr-6">
-        Login/Register
-      </button>
+      <div className="flex gap-3">
+        <Link to="/login">
+          <button className="bg-amber-900 hover:bg-amber-800 text-white py-3 px-4 rounded-full cursor-pointer ">
+            Login
+          </button>
+        </Link>
+        <Link to="/register">
+          <button className="bg-amber-900 hover:bg-amber-800 text-white py-3 px-4 rounded-full cursor-pointer ">
+            Register
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }
