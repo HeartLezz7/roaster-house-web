@@ -36,6 +36,7 @@ export default function RegisterForm() {
       .required(),
     phone: Joi.string().trim().required(),
   });
+
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
