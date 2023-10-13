@@ -1,14 +1,20 @@
 import { useState } from "react";
 import useAuth from "../../hooks/use-auth";
-import InputForm from "./InputForm";
+import InputForm from "../../components/InputForm";
 import Joi from "joi";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 export default function LoginForm() {
   const [user, setUser] = useState({
     emailOrUsername: "",
     password: "",
   });
-  const { login } = useAuth();
+  const [error, setError] = useState({});
+
+  const { login, validateError, stateLoading, setStateLoading } = useAuth();
+
+  const navigate = useNavigate();
 
   const loginSchema = Joi.object({
     emailOrUsername: Joi.alternatives([
@@ -28,40 +34,60 @@ export default function LoginForm() {
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  console.log(user);
 
   const handleLogin = (e) => {
     e.preventDefault();
     try {
-      const { value, error } = loginSchema.validate(user);
-      login(value);
+      const error = validateError(loginSchema, user);
+      if (error) {
+        return setError(error);
+      }
+      setError({});
+      setStateLoading(true);
+      login(user);
     } catch (err) {
       console.log(err);
+    } finally {
+      setStateLoading(false);
+      navigate("/");
     }
   };
 
   return (
-    <form
-      className="flex flex-col items-center gap-2 border border-gray-500 m-auto p-5 rounded-md"
-      onSubmit={handleLogin}
-    >
-      <span>Login</span>
-      <InputForm
-        placeholder="username or email"
-        name="emailOrUsername"
-        value={user.emailOrUsername}
-        onChange={handleInput}
-      />
-      <InputForm
-        placeholder="password"
-        type="password"
-        name="password"
-        value={user.password}
-        onChange={handleInput}
-      />
-      <button className="bg-amber-900 hover:bg-amber-800 text-white p-2 rounded-sm outline-none">
-        LOGIN
-      </button>
-    </form>
+    <>
+      (
+      {stateLoading ? (
+        <Loading />
+      ) : (
+        <form
+          className="w-80 flex flex-col gap-4 border border-gray-500 m-auto p-5 rounded-md"
+          onSubmit={handleLogin}
+        >
+          <div className="text-center">Login</div>
+          <InputForm
+            placeholder="username or email"
+            name="emailOrUsername"
+            value={user.emailOrUsername}
+            onChange={handleInput}
+            error={error}
+            errorInput={error.emailOrUsername}
+            errorMessage={error.emailOrUsername}
+          />
+          <InputForm
+            placeholder="password"
+            type="password"
+            name="password"
+            value={user.password}
+            onChange={handleInput}
+            errorInput={error.password}
+            errorMessage={error.password}
+          />
+          <button className="bg-amber-900 hover:bg-amber-800 text-white p-2 rounded-sm outline-none w-full">
+            LOGIN
+          </button>
+        </form>
+      )}
+      )
+    </>
   );
 }

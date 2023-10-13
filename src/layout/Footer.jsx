@@ -3,7 +3,7 @@ import FooterContact from "./FooterContact";
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-200 flex flex-col gap-2 items-center pt-5 pb-2 w-screen ">
+    <footer className="bg-neutral-200 flex flex-col gap-2 items-center pt-5 pb-2  ">
       <div className="w-[70rem] flex flex-col gap-2 ">
         <div className=" flex justify-between text-sm">
           <div className="w-44 flex flex-col gap-1">

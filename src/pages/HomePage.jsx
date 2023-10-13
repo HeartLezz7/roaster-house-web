@@ -1,3 +1,5 @@
+import AboutUs from "../layout/AboutUs";
+
 export default function HomePage() {
-  return <h1>Homepage</h1>;
+  return <AboutUs />;
 }

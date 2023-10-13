@@ -7,6 +7,19 @@ export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
+  const [stateLoading, setStateLoading] = useState(false);
+
+  const validateError = (schema, body) => {
+    const { error } = schema.validate(body, { abortEarly: false });
+    if (error) {
+      const result = error.details.reduce((acc, item) => {
+        const { message, path } = item;
+        acc[path[0]] = message;
+        return acc;
+      }, {});
+      return result;
+    }
+  };
 
   const register = async (registerData) => {
     const createUser = await axios.post("/auth/register", registerData);
@@ -24,7 +37,17 @@ export default function AuthContextProvider({ children }) {
     setAuthUser(null);
   };
   return (
-    <AuthContext.Provider value={{ authUser, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        authUser,
+        login,
+        register,
+        logout,
+        validateError,
+        stateLoading,
+        setStateLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

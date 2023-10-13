@@ -1,11 +1,12 @@
 import { useState } from "react";
-import InputForm from "./InputForm";
+import InputForm from "../../components/InputForm";
 import useAuth from "../../hooks/use-auth";
 import Joi from "joi";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 export default function RegisterForm() {
-  const [input, setInput] = useState({
+  const [registerInput, setRegisterInput] = useState({
     firstName: "",
     lastName: "",
     username: "",
@@ -14,12 +15,15 @@ export default function RegisterForm() {
     email: "",
     phone: "",
   });
-  // const [error, setError] = useState({});
+  const [error, setError] = useState({});
 
-  const { register } = useAuth();
+  const { register, validateError, stateLoading, setStateLoading } = useAuth();
+
+  const navigate = useNavigate();
 
   const registerSchema = Joi.object({
     firstName: Joi.string().trim().required(),
+    // .messages({ "string.empty": "first name is required" })
     lastName: Joi.string().trim().required(),
     username: Joi.string()
       .trim()
@@ -38,75 +42,98 @@ export default function RegisterForm() {
   });
 
   const handleInput = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setRegisterInput({ ...registerInput, [e.target.name]: e.target.value });
   };
-  console.log(input);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const { value } = registerSchema.validate(input);
-      console.log(value);
-      register(value);
-      if (value) {
-        return <Navigate to="/" />;
+      const error = validateError(registerSchema, registerInput);
+      if (error) {
+        return setError(error);
       }
+      setError({});
+      setStateLoading(true);
+      register(registerInput);
     } catch (err) {
       console.log(err);
+    } finally {
+      setStateLoading(false);
+      navigate("/");
     }
   };
   return (
-    <form className="w-96  flex flex-col gap-3 p-4">
-      <InputForm
-        placeholder="firstname"
-        name="firstName"
-        value={input.firstName}
-        onChange={handleInput}
-      />
-      <InputForm
-        placeholder="lastname"
-        name="lastName"
-        value={input.lastName}
-        onChange={handleInput}
-      />
-      <InputForm
-        placeholder="username"
-        name="username"
-        value={input.username}
-        onChange={handleInput}
-      />
-      <InputForm
-        placeholder="email"
-        name="email"
-        value={input.email}
-        onChange={handleInput}
-      />
-      <InputForm
-        placeholder="phone"
-        name="phone"
-        value={input.phone}
-        onChange={handleInput}
-      />
-      <InputForm
-        type="password"
-        placeholder="password"
-        name="password"
-        value={input.password}
-        onChange={handleInput}
-      />
-      <InputForm
-        type="password"
-        placeholder="confirm password"
-        name="confirmPassword"
-        value={input.confirmPassword}
-        onChange={handleInput}
-      />
-      <button
-        className="bg-amber-900 hover:bg-amber-800 text-white p-2 rounded-sm outline-none"
-        onClick={handleSubmit}
-      >
-        REGISTER
-      </button>
-    </form>
+    <>
+      {stateLoading ? (
+        <Loading />
+      ) : (
+        <form className="w-96  flex flex-col gap-3 p-4">
+          <InputForm
+            placeholder="firstname"
+            name="firstName"
+            value={registerInput.firstName}
+            onChange={handleInput}
+            errorInput={error.firstName}
+            errorMessage={error.firstName}
+          />
+          <InputForm
+            placeholder="lastname"
+            name="lastName"
+            value={registerInput.lastName}
+            onChange={handleInput}
+            errorInput={error.lastName}
+            errorMessage={error.lastName}
+          />
+          <InputForm
+            placeholder="username"
+            name="username"
+            value={registerInput.username}
+            onChange={handleInput}
+            errorInput={error.username}
+            errorMessage={error.username}
+          />
+          <InputForm
+            placeholder="email"
+            name="email"
+            value={registerInput.email}
+            onChange={handleInput}
+            errorInput={error.email}
+            errorMessage={error.email}
+          />
+          <InputForm
+            placeholder="phone"
+            name="phone"
+            value={registerInput.phone}
+            onChange={handleInput}
+            errorInput={error.phone}
+            errorMessage={error.phone}
+          />
+          <InputForm
+            type="password"
+            placeholder="password"
+            name="password"
+            value={registerInput.password}
+            onChange={handleInput}
+            errorInput={error.password}
+            errorMessage={error.password}
+          />
+          <InputForm
+            type="password"
+            placeholder="confirm password"
+            name="confirmPassword"
+            value={registerInput.confirmPassword}
+            onChange={handleInput}
+            errorInput={error.confirmPassword}
+            errorMessage={error.confirmPassword}
+          />
+          <button
+            className="bg-amber-900 hover:bg-amber-800 text-white p-2 rounded-sm outline-none"
+            onClick={handleSubmit}
+          >
+            REGISTER
+          </button>
+        </form>
+      )}
+    </>
   );
 }
