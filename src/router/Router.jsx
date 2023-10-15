@@ -3,7 +3,9 @@ import Layout from "../layout/Layout";
 import HomePage from "../pages/HomePage";
 import RegisterPage from "../pages/RegisterPage";
 import ProductPage from "../pages/ProductPage";
-import LoginPage from "../pages/LoginPage";
+import AdminPage from "../pages/AdminPage";
+import AdminLogin from "../features/auth/AdminLogin";
+import AdminRegisterForm from "../features/auth/AdminRegisterForm";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -11,9 +13,20 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "products", element: <ProductPage /> },
-      { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
     ],
+  },
+  {
+    path: "admin/",
+    element: <AdminPage />,
+  },
+  {
+    path: "admin/login",
+    element: <AdminLogin />,
+  },
+  {
+    path: "admin/register",
+    element: <AdminRegisterForm />,
   },
 ]);
 
