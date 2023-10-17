@@ -4,14 +4,21 @@ import Categories from "../features/products/Categories";
 import useProduct from "../hooks/use-product";
 import { useEffect } from "react";
 import ActionButton from "../components/ActionButton";
-import { useState } from "react";
 import ProductContent from "../features/products/ProductContent";
 import ShoppingCart from "../features/products/ShoppingCart";
 
 export default function ProductItemPage() {
   const { productId } = useParams();
-  const [count, setCount] = useState(0);
-  const { findProduct, getProduct, setGetProduct } = useProduct();
+
+  const {
+    findProduct,
+    getProduct,
+    setGetProduct,
+    amount,
+    setAmount,
+    addProductstCart,
+  } = useProduct();
+
   useEffect(() => {
     const handleProduct = async () => {
       try {
@@ -24,19 +31,21 @@ export default function ProductItemPage() {
     handleProduct();
   }, [productId]);
 
-  console.log(getProduct);
-
   return (
     <>
       <div className="flex gap-8 mx-10">
         <Categories />
         <div className="grid grid-rows-2 gap-4">
-          <div className="w-[660px] border rounded-md flex gap-5">
-            <img src={getProduct.productImage} alt="bean" className="w-96" />
-            <div className="w-64 flex flex-col justify-between p-2 ">
+          <div className="w-[860px] border rounded-3xl flex gap-10 p-4">
+            <img
+              src={getProduct.productImage}
+              alt="bean"
+              className="w-96 rounded-3xl"
+            />
+            <div className="w-full flex flex-col justify-between  ">
               <div>
                 <h1 className="font-semibold text-2xl ">
-                  {getProduct.productName}{" "}
+                  {getProduct.productName}
                 </h1>
                 <h1 className="font-semibold text-2xl ">
                   {getProduct.roastLevel}
@@ -49,23 +58,31 @@ export default function ProductItemPage() {
                 <p className="text-md">{`ROAST LEVEL: ${getProduct.process}`}</p>
                 <p className="text-md">{`PACKING SIZE: ${getProduct.size}`}</p>
               </div>
-              <div className="flex justify-evenly gap-2 items-center  ">
-                <button
-                  className="border border-black w-10 rounded-full "
-                  onClick={() => {
-                    setCount(count - 1);
-                  }}
-                >
-                  -
-                </button>
-                <div className="p-1 text-center">{count}</div>
-                <button
-                  className="border border-black w-10 rounded-full "
-                  onClick={() => setCount(count + 1)}
-                >
-                  +
-                </button>
-                <ActionButton title="Add to chart" />
+              <div className="flex  gap-2 items-center  ">
+                <div className="flex gap-2">
+                  <button
+                    className="border border-black w-10  rounded-full "
+                    onClick={() => {
+                      setAmount(amount - 1);
+                      if (amount === 0) {
+                        setAmount(0);
+                      }
+                    }}
+                  >
+                    -
+                  </button>
+                  <div className="p-1 text-center">{amount}</div>
+                  <button
+                    className="border border-black w-10 rounded-full "
+                    onClick={() => setAmount(amount + 1)}
+                  >
+                    +
+                  </button>
+                </div>
+                <ActionButton
+                  title="Add to cart"
+                  onClick={() => addProductstCart(productId)}
+                />
               </div>
             </div>
           </div>

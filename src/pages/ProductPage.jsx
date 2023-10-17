@@ -1,6 +1,7 @@
 import LoginForm from "../features/auth/LoginForm";
 import Categories from "../features/products/Categories";
 import ProductContent from "../features/products/ProductContent";
+import ShoppingCart from "../features/products/ShoppingCart";
 
 export default function ProductPage() {
   return (
@@ -10,6 +11,7 @@ export default function ProductPage() {
         <ProductContent />
       </div>
       <LoginForm />
+      <ShoppingCart />
     </>
   );
 }

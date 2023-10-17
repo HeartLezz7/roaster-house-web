@@ -16,9 +16,6 @@ export default function Header() {
 
   const { pathname } = useLocation();
 
-  console.log(authUser);
-  console.log(authAdmin);
-
   let username;
   if (authAdmin) {
     username = authAdmin.username;

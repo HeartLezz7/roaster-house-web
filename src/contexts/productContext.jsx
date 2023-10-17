@@ -9,6 +9,8 @@ export default function ProductContextProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [getProduct, setGetProduct] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [productsCart, setProductsCart] = useState([]);
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -25,6 +27,13 @@ export default function ProductContextProvider({ children }) {
     return await axios.get(`/product/${productId}`);
   };
 
+  const addProductstCart = async (productId) => {
+    const product = products.find((product) => product.id == productId);
+    product.amount = amount;
+    setProductsCart([...productsCart, product]);
+  };
+  console.log(productsCart);
+
   return (
     <ProductContext.Provider
       value={{
@@ -34,6 +43,11 @@ export default function ProductContextProvider({ children }) {
         setGetProduct,
         cartOpen,
         setCartOpen,
+        amount,
+        setAmount,
+        productsCart,
+        setProductsCart,
+        addProductstCart,
       }}
     >
       {children}
