@@ -5,7 +5,6 @@ import ShoppingCartItem from "./ShoppingCartItem";
 
 export default function ShoppingCart() {
   const { cartOpen, setCartOpen, productsCart } = useProduct();
-  console.log(productsCart);
   return (
     <>
       {cartOpen && (
@@ -24,9 +23,11 @@ export default function ShoppingCart() {
                 {productsCart.map((cart) => (
                   <ShoppingCartItem
                     key={cart.id}
+                    id={cart.id}
                     name={cart.productName}
                     roast={cart.roastLevel}
                     price={cart.price}
+                    amount={cart.amount}
                   />
                 ))}
               </div>

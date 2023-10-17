@@ -7,15 +7,19 @@ export const ProductContext = createContext();
 
 export default function ProductContextProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [getProduct, setGetProduct] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
-  const [amount, setAmount] = useState(0);
   const [productsCart, setProductsCart] = useState([]);
+
   useEffect(() => {
     const getProducts = async () => {
       try {
         const res = await axios.get("/product/get");
         setProducts(res.data.products);
+        // const cart = await axios.get("/product/cart/get");
+        // if (!cart) {
+        //   setProductsCart({});
+        // }
+        // setProductsCart(cart);
       } catch (err) {
         console.log(err);
       }
@@ -27,27 +31,56 @@ export default function ProductContextProvider({ children }) {
     return await axios.get(`/product/${productId}`);
   };
 
-  const addProductstCart = async (productId) => {
-    const product = products.find((product) => product.id == productId);
-    product.amount = amount;
-    setProductsCart([...productsCart, product]);
+  const addProductstCart = async (productId, amount) => {
+    const findProduct = products.find((product) => product.id == productId);
+    const findProductCart = productsCart.find((cart) => cart.id == productId);
+    if (findProductCart) {
+      const checkProductsCart = productsCart.map((item) => {
+        if (item.id === +productId) {
+          item.amount += amount;
+        }
+        return item;
+      });
+      console.log(checkProductsCart, "aaa");
+      setProductsCart(checkProductsCart);
+    } else {
+      console.log(findProduct, "bbb");
+      findProduct.amount = amount;
+      setProductsCart([...productsCart, findProduct]);
+    }
   };
-  console.log(productsCart);
 
+  const increaseProductstCart = async (productId) => {
+    const newProduct = structuredClone(productsCart);
+    const product = newProduct.find((product) => product.id == productId);
+    product.amount += 1;
+    setProductsCart(newProduct);
+  };
+
+  const decreaseProductstCart = async (productId) => {
+    const newProduct = structuredClone(productsCart);
+    const product = newProduct.find((product) => product.id == productId);
+    if (product.amount === 0) {
+      product.amount = 0;
+    } else {
+      product.amount -= 1;
+    }
+    setProductsCart(newProduct);
+  };
+
+  // const deleteProductstCart = () => {};
   return (
     <ProductContext.Provider
       value={{
         products,
         findProduct,
-        getProduct,
-        setGetProduct,
         cartOpen,
         setCartOpen,
-        amount,
-        setAmount,
         productsCart,
         setProductsCart,
         addProductstCart,
+        increaseProductstCart,
+        decreaseProductstCart,
       }}
     >
       {children}

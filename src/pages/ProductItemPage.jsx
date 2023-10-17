@@ -6,18 +6,19 @@ import { useEffect } from "react";
 import ActionButton from "../components/ActionButton";
 import ProductContent from "../features/products/ProductContent";
 import ShoppingCart from "../features/products/ShoppingCart";
+import { useState } from "react";
 
 export default function ProductItemPage() {
   const { productId } = useParams();
 
   const {
     findProduct,
-    getProduct,
-    setGetProduct,
-    amount,
-    setAmount,
+
     addProductstCart,
   } = useProduct();
+
+  const [getProduct, setGetProduct] = useState({});
+  const [amount, setAmount] = useState(0);
 
   useEffect(() => {
     const handleProduct = async () => {
@@ -81,7 +82,10 @@ export default function ProductItemPage() {
                 </div>
                 <ActionButton
                   title="Add to cart"
-                  onClick={() => addProductstCart(productId)}
+                  onClick={() => {
+                    addProductstCart(productId, amount);
+                    setAmount(0);
+                  }}
                 />
               </div>
             </div>
