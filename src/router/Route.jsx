@@ -6,6 +6,7 @@ import ProductPage from "../pages/ProductPage";
 import AdminPage from "../pages/AdminPage";
 import AdminLogin from "../features/auth/AdminLogin";
 import AdminRegisterForm from "../features/auth/AdminRegisterForm";
+import ProductItemPage from "../pages/ProductItemPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "products", element: <ProductPage /> },
+      { path: "products/:productId", element: <ProductItemPage /> },
       { path: "register", element: <RegisterPage /> },
     ],
   },
@@ -30,29 +32,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-export default function Router() {
+export default function Route() {
   return <RouterProvider router={router} />;
 }
-
-// {
-//     path: "/",
-//     element: (
-//       <Authenticated>
-//         <Layout />
-//       </Authenticated>
-//     ),
-//     children: [
-//       { path: "", element: <HomePage /> },
-//       { path: "friend", element: <FriendPage /> },
-//       { path: "profile/:profileId", element: <ProfilePage /> },
-//     ],
-//   },
-//   {
-//     path: "/login",
-//     element: (
-//       <RedirectIfAuthenticated>
-//         <LoginPage />,
-//       </RedirectIfAuthenticated>
-//     ),
-//   },
-// ]);

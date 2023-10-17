@@ -1,6 +1,6 @@
 export default function AboutUs() {
   return (
-    <div className="flex justify-center h-96 ">
+    <div className="flex justify-center h-96 mb-10">
       <div className="flex flex-col justify-center p-10  text-white bg-gradient-to-br from-amber-950 to-amber-600 shadow ">
         <h1 className="text-3xl">STORY</h1>
         <p>

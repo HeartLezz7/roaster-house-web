@@ -36,22 +36,21 @@ export default function LoginForm() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const error = validateError(loginSchema, user);
       if (error) {
         toast.error(error.emailOrUsername);
         toast.error(error.password);
-        console.log(error);
         return setError(error);
       }
       setError({});
       setStateLoading(true);
-      login(user);
-      setStateLoading(false);
+      await login(user);
       toast.success("login success");
     } catch (err) {
+      toast.error("Access Denined");
       console.log(err);
     } finally {
       setStateLoading(false);
@@ -66,16 +65,18 @@ export default function LoginForm() {
         open && (
           <>
             <div className="fixed inset-0 bg-black opacity-60 z-10"></div>
-            <div className="fixed right-0 bg-white z-40 rounded-md">
+            <div className="fixed right-0 bg-white z-40 rounded-md p-5">
+              <div className="w-full flex justify-between mb-3">
+                <div className="w-full text-center">Login</div>
+                <button type="button" onClick={() => setOpen(false)}>
+                  X
+                </button>
+              </div>
               <form
-                className="w-80  h-screen flex flex-col gap-4 p-5"
+                className="w-80  h-screen flex flex-col items-center gap-2 "
                 onSubmit={handleLogin}
               >
-                <div className="flex justify-between">
-                  <div></div>
-                  <div>Login</div>
-                  <button onClick={() => setOpen(false)}>X</button>
-                </div>
+                {/* <div> */}
                 <InputForm
                   placeholder="username or email"
                   name="emailOrUsername"
@@ -95,10 +96,12 @@ export default function LoginForm() {
                   errorMessage={error.password}
                 />
                 <ActionButton title="LOGIN" />
-                <hr className=" border-gray-400" />
-                <Link to="/register">
-                  <ActionButton title="REGISTER" />
-                </Link>
+                <div className="w-full flex flex-col gap-2">
+                  <hr className=" border-gray-400" />
+                  <Link to="/register">
+                    <ActionButton title="REGISTER" />
+                  </Link>
+                </div>
               </form>
             </div>
           </>

@@ -40,12 +40,13 @@ export default function AdminLogin() {
     setAdmin({ ...admin, [e.target.name]: e.target.value });
   };
 
-  const handleAdminLogin = (e) => {
+  const handleAdminLogin = async (e) => {
     e.preventDefault();
     try {
       const error = validateError(loginSchema, admin);
       if (error) {
-        return setError(error);
+        setError(error);
+        return toast.error(error);
       }
       if (admin.role !== "admin") {
         setError({});
@@ -53,9 +54,10 @@ export default function AdminLogin() {
       }
       setError({});
       setStateLoading(true);
-      adminLogin(admin);
+      await adminLogin(admin);
       navigate("/");
     } catch (err) {
+      toast.error("Access Denined");
       console.log(err);
     } finally {
       setStateLoading(false);
