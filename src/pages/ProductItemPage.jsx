@@ -11,11 +11,7 @@ import { useState } from "react";
 export default function ProductItemPage() {
   const { productId } = useParams();
 
-  const {
-    findProduct,
-
-    addProductstCart,
-  } = useProduct();
+  const { findProduct, addProductstCart } = useProduct();
 
   const [getProduct, setGetProduct] = useState({});
   const [amount, setAmount] = useState(0);
@@ -29,6 +25,7 @@ export default function ProductItemPage() {
         console.log(err);
       }
     };
+
     handleProduct();
   }, [productId]);
 

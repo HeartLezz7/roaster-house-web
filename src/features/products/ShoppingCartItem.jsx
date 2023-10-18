@@ -1,12 +1,18 @@
 import useProduct from "../../hooks/use-product";
 
 export default function ShoppingCartItem({ name, roast, price, amount, id }) {
-  const { increaseProductstCart, decreaseProductstCart } = useProduct();
+  const { increaseProductstCart, decreaseProductstCart, deleteProductCart } =
+    useProduct();
 
   return (
     <div>
       <div className="flex flex-col gap-2 justify-between items-start border border-gray-300 p-2 rounded-lg relative">
-        <div className="absolute right-2 top-">X</div>
+        <div
+          className="absolute right-2 top-"
+          onClick={() => deleteProductCart(id)}
+        >
+          X
+        </div>
         <div>
           <div>name: {name}</div>
           <div>Roast :{roast}</div>
