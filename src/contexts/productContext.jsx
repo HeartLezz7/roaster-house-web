@@ -35,17 +35,14 @@ export default function ProductContextProvider({ children }) {
     const findProduct = products.find((product) => product.id == productId);
     const findProductCart = productsCart.find((cart) => cart.id == productId);
     if (findProductCart) {
-      const checkProductsCart = productsCart.map((item) => {
-        if (item.id === +productId) {
-          item.amount += amount;
-        }
-        return item;
-      });
-      console.log(checkProductsCart, "aaa");
-      setProductsCart(checkProductsCart);
+      findProduct.amount += +amount;
+      console.log(findProduct, "update");
+      await axios.post("/shoppingCart/modify", findProduct);
+      setProductsCart([findProduct]);
     } else {
-      console.log(findProduct, "bbb");
-      findProduct.amount = amount;
+      findProduct.amount = +amount;
+      console.log(findProduct, "create");
+      await axios.post("/shoppingCart/modify", findProduct);
       setProductsCart([...productsCart, findProduct]);
     }
   };
