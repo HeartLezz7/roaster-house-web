@@ -10,14 +10,14 @@ export default function InputForm({
   errorMessage,
 }) {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full ">
       <input
         type={type}
         placeholder={placeholder}
         name={name}
         value={value}
         onChange={onChange}
-        className="p-2 rounded-sm border border-gray-500"
+        className=" rounded-xl py-2 px-3 border"
       />
       {{ errorInput } && <InputErrorMessage message={errorMessage} />}
     </div>

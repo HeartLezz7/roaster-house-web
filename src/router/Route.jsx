@@ -7,6 +7,9 @@ import AdminPage from "../pages/AdminPage";
 import AdminLogin from "../features/auth/AdminLogin";
 import AdminRegisterForm from "../features/auth/AdminRegisterForm";
 import ProductItemPage from "../pages/ProductItemPage";
+import ProfilePage from "../pages/ProfilePage";
+import Address from "../features/profile/AddressForm";
+import UserProfile from "../features/profile/UserProfile";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,6 +19,14 @@ const router = createBrowserRouter([
       { path: "products", element: <ProductPage /> },
       { path: "products/:productId", element: <ProductItemPage /> },
       { path: "register", element: <RegisterPage /> },
+      {
+        path: "profile",
+        element: <ProfilePage />,
+        children: [
+          { path: "user", element: <UserProfile /> },
+          { path: "address", element: <Address /> },
+        ],
+      },
     ],
   },
   {

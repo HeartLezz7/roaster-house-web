@@ -41,13 +41,15 @@ export default function Header() {
       </div>
       <div className="flex gap-3">
         {getToken ? (
-          <div className="flex items-center gap-3">
-            <h1>{username}</h1>
+          <div className="flex items-center gap-3 active:font-semibold">
+            <Link to="/profile/user">
+              <h1 className="">{username}</h1>
+            </Link>
             <Link to="/">
               <HeaderButton message="logout" onClick={logout} />
             </Link>
             <div
-              className="flex items-center justify-center w-14 p-1 cursor-pointer"
+              className="flex items-center justify-center w-12 p-1 cursor-pointer"
               onClick={() => setCartOpen(true)}
             >
               <img src={cart} alt="cart" className="w-full" />
