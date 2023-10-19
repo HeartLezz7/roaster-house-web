@@ -7,8 +7,8 @@ import axios from "../../configs/axios";
 
 export default function AddressForm() {
   const [addressInput, setAddressInput] = useState({
-    address: "",
-    sub_district: "",
+    addressInfo: "",
+    subDistrict: "",
     district: "",
     province: "",
     postcode: "",
@@ -19,8 +19,8 @@ export default function AddressForm() {
   const { validateError } = useAuth();
 
   const addressValidateSchema = Joi.object({
-    address: Joi.string().required(),
-    sub_district: Joi.string().required(),
+    addressInfo: Joi.string().required(),
+    subDistrict: Joi.string().required(),
     district: Joi.string().required(),
     province: Joi.string().required(),
     postcode: Joi.string()
@@ -63,19 +63,19 @@ export default function AddressForm() {
         <form onSubmit={handleSubmitAddress} className="w-96">
           <InputForm
             placeholder="address"
-            name="address"
-            value={addressInput.address}
+            name="addressInfo"
+            value={addressInput.addressInfo}
             onChange={handleInput}
-            errorInput={error.address}
-            errorMessage={error.address}
+            errorInput={error.addressInfo}
+            errorMessage={error.addressInfo}
           />
           <InputForm
             placeholder="sub_district"
-            name="sub_district"
-            value={addressInput.sub_district}
+            name="subDistrict"
+            value={addressInput.subDistrict}
             onChange={handleInput}
-            errorInput={error.sub_district}
-            errorMessage={error.sub_district}
+            errorInput={error.subDistrict}
+            errorMessage={error.subDistrict}
           />
           <InputForm
             placeholder="district"
@@ -101,10 +101,7 @@ export default function AddressForm() {
             errorInput={error.postcode}
             errorMessage={error.postcode}
           />
-          <ActionButton
-            title="Add address"
-            onClick={() => setEditAddress(false)}
-          />
+          <ActionButton title="Add address" onClick={handleSubmitAddress} />
         </form>
       ) : (
         <div className="grid grid-row-3 gap-2">

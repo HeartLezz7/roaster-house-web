@@ -10,6 +10,7 @@ import ProductItemPage from "../pages/ProductItemPage";
 import ProfilePage from "../pages/ProfilePage";
 import AddressForm from "../features/profile/AddressForm";
 import UserProfile from "../features/profile/UserProfile";
+import OrderPage from "../pages/OrderPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
           { path: "address", element: <AddressForm /> },
         ],
       },
+      { path: "order", element: <OrderPage /> },
     ],
   },
   {

@@ -41,9 +41,9 @@ export default function Header() {
       </div>
       <div className="flex gap-3">
         {getToken ? (
-          <div className="flex items-center gap-3 active:font-semibold">
+          <div className="flex items-center gap-3 ">
             <Link to="/profile/user">
-              <h1 className="">{username}</h1>
+              <h1 className="active:font-semibold">{username}</h1>
             </Link>
             <Link to="/">
               <HeaderButton message="logout" onClick={logout} />
