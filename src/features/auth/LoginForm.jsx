@@ -76,7 +76,6 @@ export default function LoginForm() {
                 className="w-80  h-screen flex flex-col items-center gap-2 "
                 onSubmit={handleLogin}
               >
-                {/* <div> */}
                 <InputForm
                   placeholder="username or email"
                   name="emailOrUsername"

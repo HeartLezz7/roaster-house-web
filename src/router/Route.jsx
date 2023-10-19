@@ -8,7 +8,7 @@ import AdminLogin from "../features/auth/AdminLogin";
 import AdminRegisterForm from "../features/auth/AdminRegisterForm";
 import ProductItemPage from "../pages/ProductItemPage";
 import ProfilePage from "../pages/ProfilePage";
-import Address from "../features/profile/AddressForm";
+import AddressForm from "../features/profile/AddressForm";
 import UserProfile from "../features/profile/UserProfile";
 const router = createBrowserRouter([
   {
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
         children: [
           { path: "user", element: <UserProfile /> },
-          { path: "address", element: <Address /> },
+          { path: "address", element: <AddressForm /> },
         ],
       },
     ],

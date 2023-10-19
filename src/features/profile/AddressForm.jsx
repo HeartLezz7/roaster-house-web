@@ -1,29 +1,54 @@
 import { useState } from "react";
 import InputForm from "../../components/InputForm";
 import ActionButton from "../../components/ActionButton";
+import useAuth from "../../hooks/use-auth";
+import Joi from "joi";
+import axios from "../../configs/axios";
 
 export default function AddressForm() {
-  const [address, setAddress] = useState({
+  const [addressInput, setAddressInput] = useState({
     address: "",
     sub_district: "",
     district: "",
     province: "",
     postcode: "",
   });
-
   const [editAddress, setEditAddress] = useState(false);
   const [error, setError] = useState({});
 
+  const { validateError } = useAuth();
+
+  const addressValidateSchema = Joi.object({
+    address: Joi.string().required(),
+    sub_district: Joi.string().required(),
+    district: Joi.string().required(),
+    province: Joi.string().required(),
+    postcode: Joi.string()
+      .pattern(/^[0-9]{0,5}$/)
+      .required(),
+  });
+
   const handleInput = (e) => {
-    setAddress({ ...address, [e.target.name]: e.target.value });
+    setAddressInput({ ...addressInput, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmitAddress = async (e) => {
+    try {
+      e.preventDefault();
+      const error = validateError(addressValidateSchema, addressInput);
+      if (error) {
+        return setError(error);
+      }
+      setError({});
+      await axios.post("/address/create", addressInput);
+      setEditAddress(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div>
+    <div className="grid grid-row-2 gap-3">
       <div className="flex justify-between">
         <div className="text-2xl">Address</div>
         {editAddress ? (
@@ -35,11 +60,11 @@ export default function AddressForm() {
         )}
       </div>
       {editAddress ? (
-        <form>
+        <form onSubmit={handleSubmitAddress} className="w-96">
           <InputForm
             placeholder="address"
             name="address"
-            value={address.address}
+            value={addressInput.address}
             onChange={handleInput}
             errorInput={error.address}
             errorMessage={error.address}
@@ -47,7 +72,7 @@ export default function AddressForm() {
           <InputForm
             placeholder="sub_district"
             name="sub_district"
-            value={address.sub_district}
+            value={addressInput.sub_district}
             onChange={handleInput}
             errorInput={error.sub_district}
             errorMessage={error.sub_district}
@@ -55,7 +80,7 @@ export default function AddressForm() {
           <InputForm
             placeholder="district"
             name="district"
-            value={address.district}
+            value={addressInput.district}
             onChange={handleInput}
             errorInput={error.district}
             errorMessage={error.district}
@@ -63,7 +88,7 @@ export default function AddressForm() {
           <InputForm
             placeholder="province"
             name="province"
-            value={address.province}
+            value={addressInput.province}
             onChange={handleInput}
             errorInput={error.province}
             errorMessage={error.province}
@@ -71,7 +96,7 @@ export default function AddressForm() {
           <InputForm
             placeholder="postcode"
             name="postcode"
-            value={address.postcode}
+            value={addressInput.postcode}
             onChange={handleInput}
             errorInput={error.postcode}
             errorMessage={error.postcode}
@@ -85,19 +110,19 @@ export default function AddressForm() {
         <div className="grid grid-row-3 gap-2">
           <div className="grid grid-rows-3 grid-cols-2 min-w-[600px] max-w-3xl gap-2">
             <div className="col-span-2 border rounded-xl py-2 px-3">
-              {address.address}
+              {addressInput.address || "Address"}
             </div>
             <div className="col-span-1 border rounded-xl py-2 px-3">
-              {address.sub_district}
+              {addressInput.sub_district || "Sub district"}
             </div>
             <div className="col-span-1 border rounded-xl py-2 px-3">
-              {address.district}
+              {addressInput.district || "District"}
             </div>
             <div className="col-span-2 border rounded-xl py-2 px-3">
-              {address.province}
+              {addressInput.province || "Province"}
             </div>
             <div className="col-span-2 border rounded-xl py-2 px-3">
-              {address.postcode}
+              {addressInput.postcode || "Postcode"}
             </div>
           </div>
         </div>
