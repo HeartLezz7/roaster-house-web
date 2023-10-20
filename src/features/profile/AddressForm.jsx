@@ -4,6 +4,9 @@ import ActionButton from "../../components/ActionButton";
 import useAuth from "../../hooks/use-auth";
 import Joi from "joi";
 import axios from "../../configs/axios";
+import { useEffect } from "react";
+import { getAccessToken } from "../../utils/local-storage";
+import TextMessage from "../../components/TextMessage";
 
 export default function AddressForm() {
   const [addressInput, setAddressInput] = useState({
@@ -15,6 +18,14 @@ export default function AddressForm() {
   });
   const [editAddress, setEditAddress] = useState(false);
   const [error, setError] = useState({});
+
+  useEffect(() => {
+    if (getAccessToken()) {
+      axios
+        .get("/address/get")
+        .then((res) => setAddressInput(res.data.address));
+    }
+  }, []);
 
   const { validateError } = useAuth();
 
@@ -106,21 +117,17 @@ export default function AddressForm() {
       ) : (
         <div className="grid grid-row-3 gap-2">
           <div className="grid grid-rows-3 grid-cols-2 min-w-[600px] max-w-3xl gap-2">
-            <div className="col-span-2 border rounded-xl py-2 px-3">
-              {addressInput.address || "Address"}
-            </div>
-            <div className="col-span-1 border rounded-xl py-2 px-3">
-              {addressInput.sub_district || "Sub district"}
-            </div>
-            <div className="col-span-1 border rounded-xl py-2 px-3">
-              {addressInput.district || "District"}
-            </div>
-            <div className="col-span-2 border rounded-xl py-2 px-3">
-              {addressInput.province || "Province"}
-            </div>
-            <div className="col-span-2 border rounded-xl py-2 px-3">
-              {addressInput.postcode || "Postcode"}
-            </div>
+            <TextMessage
+              grid="2"
+              text={addressInput.addressInfo || "Address"}
+            />
+            <TextMessage
+              grid="1"
+              text={addressInput.subDistrict || "Sub district"}
+            />
+            <TextMessage grid="1" text={addressInput.district || "District"} />
+            <TextMessage grid="2" text={addressInput.province || "Province"} />
+            <TextMessage grid="2" text={addressInput.postcode || "Postcode"} />
           </div>
         </div>
       )}

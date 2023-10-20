@@ -5,14 +5,14 @@ import ProductItem from "./ProductItem";
 import { getAccessToken } from "../../utils/local-storage";
 
 export default function ProductList() {
-  const { products, productsCart, getCart } = useProduct();
+  const { products, getCart, isRefresh } = useProduct();
   const { authAdmin } = useAuth();
 
   useEffect(() => {
     if (getAccessToken()) {
       getCart();
     }
-  }, [productsCart]);
+  }, [isRefresh]);
   return (
     <div className="grid grid-cols-4 grid-row-2 max-w-[1200px] gap-4">
       {products.map((item) => (

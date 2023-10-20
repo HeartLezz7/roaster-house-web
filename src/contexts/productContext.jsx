@@ -9,6 +9,7 @@ export const ProductContext = createContext();
 export default function ProductContextProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [productsCart, setProductsCart] = useState([]);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function ProductContextProvider({ children }) {
           id: item.id,
           productId: item.productId,
           productName: item.product.productName,
+          productImage: item.product.productImage,
           price: item.product.price,
           roastLevel: item.product.roastLevel,
           amount: item.amount,
@@ -61,17 +63,16 @@ export default function ProductContextProvider({ children }) {
     const findProductCart = productsCart.find(
       (cart) => cart.productId == productId
     );
-    console.log(findProductCart, "find");
     if (findProductCart) {
       findProductCart.amount += +amount;
-      console.log(findProductCart, "update");
       await axios.post("/shoppingCart/update", findProductCart);
       setProductsCart([findProduct]);
+      setIsRefresh(!isRefresh);
     } else {
       findProduct.amount = +amount;
-      console.log(findProduct, "create");
       await axios.post("/shoppingCart/create", findProduct);
       setProductsCart([...productsCart, findProduct]);
+      setIsRefresh(!isRefresh);
     }
   };
 
@@ -94,11 +95,8 @@ export default function ProductContextProvider({ children }) {
   };
 
   const deleteProductCart = async (productId) => {
-    const foundProductCart = productsCart.find(
-      (item) => item.productId === productId
-    );
-    console.log(foundProductCart, "aaa");
     await axios.delete(`/shoppingCart/${productId}`);
+    setIsRefresh(!isRefresh);
   };
 
   return (
@@ -115,6 +113,7 @@ export default function ProductContextProvider({ children }) {
         decreaseProductstCart,
         deleteProductCart,
         getCart,
+        isRefresh,
       }}
     >
       {children}

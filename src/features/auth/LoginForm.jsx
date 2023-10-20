@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import { toast } from "react-toastify";
 import ActionButton from "../../components/ActionButton";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [user, setUser] = useState({
@@ -16,6 +17,8 @@ export default function LoginForm() {
 
   const { login, validateError, stateLoading, setStateLoading, open, setOpen } =
     useAuth();
+
+  const navigate = useNavigate();
 
   const loginSchema = Joi.object({
     emailOrUsername: Joi.alternatives([
@@ -49,6 +52,7 @@ export default function LoginForm() {
       setStateLoading(true);
       await login(user);
       toast.success("login success");
+      navigate("/");
     } catch (err) {
       toast.error("Access Denined");
       console.log(err);
