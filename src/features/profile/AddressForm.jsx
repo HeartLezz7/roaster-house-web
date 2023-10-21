@@ -62,7 +62,7 @@ export default function AddressForm() {
 
   return (
     <div className="grid grid-row-2 gap-3">
-      <div className="flex justify-between">
+      <div className="flex justify-between min-w-[600px] max-w-3xl">
         <div className="text-2xl">Address</div>
         {editAddress ? (
           <div className="cursor-pointer" onClick={() => setEditAddress(false)}>

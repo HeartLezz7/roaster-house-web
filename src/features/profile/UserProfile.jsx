@@ -58,7 +58,7 @@ export default function UserProfile() {
 
   return (
     <div className="grid grid-row-2 gap-3">
-      <div className="flex justify-between">
+      <div className="flex justify-between min-w-[600px] max-w-3xl">
         <div className="text-2xl">User profile</div>
         {editProfile ? (
           <div className="cursor-pointer" onClick={() => setEditProfile(false)}>
@@ -71,7 +71,10 @@ export default function UserProfile() {
         )}
       </div>
       {editProfile ? (
-        <form onSubmit={handleEditUserProfile} className="w-96">
+        <form
+          onSubmit={handleEditUserProfile}
+          className="min-w-[600px] max-w-3xl"
+        >
           <InputForm
             placeholder={authUser.firstName}
             name="firstName"

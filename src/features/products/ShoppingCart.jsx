@@ -37,7 +37,10 @@ export default function ShoppingCart() {
             <div className="w-full flex flex-col gap-2 ">
               <hr className=" border-gray-300" />
               <Link to="/order">
-                <ActionButton title="CHECKOUT" />
+                <ActionButton
+                  title="CHECKOUT"
+                  onClick={() => setCartOpen(false)}
+                />
               </Link>
             </div>
           </div>

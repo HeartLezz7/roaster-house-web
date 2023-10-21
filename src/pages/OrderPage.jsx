@@ -1,4 +1,6 @@
-import TextMessage from "../components/TextMessage";
+// import TextMessage from "../components/TextMessage";
+import AddressForm from "../features/profile/AddressForm";
+import UserProfile from "../features/profile/UserProfile";
 import useOrder from "../hooks/use-Order";
 
 export default function OrderPage() {
@@ -8,7 +10,7 @@ export default function OrderPage() {
   return (
     <div>
       <div className="m-auto border border-gray-300 grid grid-cols-3 max-w-screen-xl p-3">
-        <div className="grid grid-rows-2 col-span-2">
+        {/* <div className="grid grid-rows-2 col-span-2">
           <div className="grid  col-span-2 ">
             <div className="gird grid-rows-2 ">
               <div className="">Customer</div>
@@ -30,6 +32,14 @@ export default function OrderPage() {
                 <TextMessage text="phone" grid="2" />
               </div>
             </div>
+          </div>
+        </div> */}
+        <div className="grid grid-rows-2 col-span-2">
+          <div>
+            <UserProfile />
+          </div>
+          <div>
+            <AddressForm />
           </div>
         </div>
         <div className="col-span-1"></div>

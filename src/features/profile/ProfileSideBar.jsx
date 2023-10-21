@@ -15,6 +15,11 @@ export default function ProfileSideBar() {
           Address
         </p>
       </Link>
+      <Link to="/order">
+        <p className="text-sm hover:bg-slate-500 hover:text-white p-2 rounded-md">
+          checkout
+        </p>
+      </Link>
     </div>
   );
 }
