@@ -1,14 +1,7 @@
 import useProduct from "../../hooks/use-product";
 import trash from "../../icon/trash.png";
 
-export default function ShoppingCartItem({
-  name,
-  // roast,
-  price,
-  amount,
-  img,
-  id,
-}) {
+export default function ShoppingCartItem({ name, price, amount, img, id }) {
   const { increaseProductstCart, decreaseProductstCart, deleteProductCart } =
     useProduct();
   return (

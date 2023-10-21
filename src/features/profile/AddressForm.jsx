@@ -7,6 +7,7 @@ import axios from "../../configs/axios";
 import { useEffect } from "react";
 import { getAccessToken } from "../../utils/local-storage";
 import TextMessage from "../../components/TextMessage";
+import useOrder from "../../hooks/use-Order";
 
 export default function AddressForm() {
   const [addressInput, setAddressInput] = useState({
@@ -28,6 +29,7 @@ export default function AddressForm() {
   }, []);
 
   const { validateError } = useAuth();
+  const { address } = useOrder();
 
   const addressValidateSchema = Joi.object({
     addressInfo: Joi.string().required(),
@@ -63,7 +65,9 @@ export default function AddressForm() {
       <div className="flex justify-between">
         <div className="text-2xl">Address</div>
         {editAddress ? (
-          ""
+          <div className="cursor-pointer" onClick={() => setEditAddress(false)}>
+            X
+          </div>
         ) : (
           <div className="cursor-pointer" onClick={() => setEditAddress(true)}>
             Edit
@@ -73,7 +77,7 @@ export default function AddressForm() {
       {editAddress ? (
         <form onSubmit={handleSubmitAddress} className="w-96">
           <InputForm
-            placeholder="address"
+            placeholder={address.addressInfo || "address"}
             name="addressInfo"
             value={addressInput.addressInfo}
             onChange={handleInput}
@@ -81,7 +85,7 @@ export default function AddressForm() {
             errorMessage={error.addressInfo}
           />
           <InputForm
-            placeholder="sub_district"
+            placeholder={address.subDistrict || "sub_district"}
             name="subDistrict"
             value={addressInput.subDistrict}
             onChange={handleInput}
@@ -89,15 +93,15 @@ export default function AddressForm() {
             errorMessage={error.subDistrict}
           />
           <InputForm
-            placeholder="district"
+            placeholder={address.district}
             name="district"
-            value={addressInput.district}
+            value={addressInput.district || "district"}
             onChange={handleInput}
             errorInput={error.district}
             errorMessage={error.district}
           />
           <InputForm
-            placeholder="province"
+            placeholder={address.province || "province"}
             name="province"
             value={addressInput.province}
             onChange={handleInput}
@@ -105,14 +109,14 @@ export default function AddressForm() {
             errorMessage={error.province}
           />
           <InputForm
-            placeholder="postcode"
+            placeholder={address.postcode || "postcode"}
             name="postcode"
             value={addressInput.postcode}
             onChange={handleInput}
             errorInput={error.postcode}
             errorMessage={error.postcode}
           />
-          <ActionButton title="Add address" onClick={handleSubmitAddress} />
+          <ActionButton title="edit address" onClick={handleSubmitAddress} />
         </form>
       ) : (
         <div className="grid grid-row-3 gap-2">
