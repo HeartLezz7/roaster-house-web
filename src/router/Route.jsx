@@ -10,7 +10,9 @@ import ProductItemPage from "../pages/ProductItemPage";
 import ProfilePage from "../pages/ProfilePage";
 import AddressForm from "../features/profile/AddressForm";
 import UserProfile from "../features/profile/UserProfile";
+import PaymentPage from "../pages/PaymentPage";
 import OrderPage from "../pages/OrderPage";
+import OrderList from "../features/profile/OrderList";
 
 const router = createBrowserRouter([
   {
@@ -27,11 +29,20 @@ const router = createBrowserRouter([
         children: [
           { path: "user", element: <UserProfile /> },
           { path: "address", element: <AddressForm /> },
+          {
+            path: "order",
+            element: <OrderList />,
+          },
         ],
       },
+
       {
-        path: "order",
+        path: "order/:orderId",
         element: <OrderPage />,
+      },
+      {
+        path: "payment/:paymentId",
+        element: <PaymentPage />,
       },
     ],
   },

@@ -7,7 +7,7 @@ export const OrderContext = createContext();
 
 export default function OrderContextProvider({ children }) {
   const [address, setAddress] = useState({});
-
+  const [order, setOrder] = useState({});
   useEffect(() => {
     axios
       .get("/address/get")
@@ -15,9 +15,8 @@ export default function OrderContextProvider({ children }) {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(address);
   return (
-    <OrderContext.Provider value={{ address }}>
+    <OrderContext.Provider value={{ address, setOrder, order }}>
       {children}
     </OrderContext.Provider>
   );

@@ -1,11 +1,26 @@
 import ActionButton from "../../components/ActionButton";
-import { Link } from "react-router-dom";
 import useProduct from "../../hooks/use-product";
 import ShoppingCartItem from "./ShoppingCartItem";
+import axios from "../../configs/axios";
+import { useNavigate } from "react-router-dom";
+import useOrder from "../../hooks/use-Order";
 
 export default function ShoppingCart() {
   const { cartOpen, setCartOpen, productsCart } = useProduct();
-  console.log(productsCart);
+  const { setOrder } = useOrder();
+  const navigate = useNavigate();
+
+  const handleCheckOut = async () => {
+    try {
+      const res = await axios.post("/order/createOrder");
+      setOrder(res.data.order);
+      console.log(res, "checkout");
+      setCartOpen(false);
+      navigate(`/order/${res.data.order.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       {cartOpen && (
@@ -36,12 +51,7 @@ export default function ShoppingCart() {
             </div>
             <div className="w-full flex flex-col gap-2 ">
               <hr className=" border-gray-300" />
-              <Link to="/order">
-                <ActionButton
-                  title="CHECKOUT"
-                  onClick={() => setCartOpen(false)}
-                />
-              </Link>
+              <ActionButton title="CHECKOUT" onClick={handleCheckOut} />
             </div>
           </div>
         </>
