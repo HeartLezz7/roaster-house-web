@@ -9,7 +9,7 @@ import CreateProductItem from "./CreateProductItem";
 import { useLocation } from "react-router-dom";
 
 export default function ProductList() {
-  const { products, getCart, isRefresh } = useProduct();
+  const { filteredProduct, getCart, isRefresh } = useProduct();
   const { authAdmin } = useAuth();
 
   const { pathname } = useLocation();
@@ -19,9 +19,20 @@ export default function ProductList() {
       getCart();
     }
   }, [isRefresh]);
+
+  function checkProduct() {
+    if (pathname !== "/products") {
+      let homeProducts = [];
+      homeProducts = filteredProduct.slice(0, 4);
+      console.log(homeProducts);
+      return homeProducts;
+    } else {
+      return filteredProduct;
+    }
+  }
   return (
     <div className="grid grid-cols-4 grid-row-2 max-w-[1200px] gap-4">
-      {products.map((item) => (
+      {checkProduct().map((item) => (
         <ProductItem
           id={item.id}
           key={item.id}

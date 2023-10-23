@@ -11,6 +11,7 @@ export default function ProductContextProvider({ children }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [productsCart, setProductsCart] = useState([]);
+  const [filteredProduct, setFilteredProduct] = useState([]);
 
   useEffect(() => {
     getProducts();
@@ -23,10 +24,20 @@ export default function ProductContextProvider({ children }) {
     return await axios.get(`/product/${productId}`);
   };
 
+  const filterProduct = (roast) => {
+    if (roast === "all") {
+      setFilteredProduct(products);
+    } else {
+      const foundroducts = products.filter((item) => item.roastLevel === roast);
+      setFilteredProduct(foundroducts);
+    }
+  };
+
   const getProducts = async () => {
     try {
       const res = await axios.get("/product/get");
       setProducts(res.data.products);
+      setFilteredProduct(res.data.products);
     } catch (err) {
       console.log(err);
     }
@@ -110,6 +121,9 @@ export default function ProductContextProvider({ children }) {
         getCart,
         isRefresh,
         setIsRefresh,
+        filteredProduct,
+        setFilteredProduct,
+        filterProduct,
       }}
     >
       {children}

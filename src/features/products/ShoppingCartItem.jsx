@@ -2,8 +2,10 @@ import useProduct from "../../hooks/use-product";
 import trash from "../../icon/trash.png";
 
 export default function ShoppingCartItem({ name, price, amount, img, id }) {
-  const { increaseProductstCart, decreaseProductstCart, deleteProductCart } =
-    useProduct();
+  const {
+    deleteProductCart,
+    // increaseProductstCart, decreaseProductstCart
+  } = useProduct();
   return (
     <div>
       <div className="flex flex-col gap-2 justify-between items-start border border-gray-300 p-2 rounded-lg relative">
@@ -23,7 +25,7 @@ export default function ShoppingCartItem({ name, price, amount, img, id }) {
             <div className="text-sm">price : {amount * price} </div>
           </div>
         </div>
-        <div className="flex gap-5 mx-auto">
+        {/* <div className="flex gap-5 mx-auto">
           <button
             className="border border-black w-10  rounded-full "
             onClick={() => {
@@ -38,7 +40,7 @@ export default function ShoppingCartItem({ name, price, amount, img, id }) {
           >
             +
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

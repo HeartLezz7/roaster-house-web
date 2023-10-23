@@ -6,9 +6,11 @@ import axios from "../configs/axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import useAuth from "../hooks/use-auth";
 
 export default function OrderPage() {
   const { order, setOrder } = useOrder();
+  const { authUser } = useAuth();
   const { orderId } = useParams();
   console.log(orderId, "params");
   console.log(order);
@@ -19,6 +21,7 @@ export default function OrderPage() {
       .catch((err) => console.log(err));
   }, [orderId]);
 
+  console.log(order, "order");
   const navigate = useNavigate();
   const handlePayment = async () => {
     try {
@@ -30,7 +33,7 @@ export default function OrderPage() {
   };
   return (
     <div>
-      <div className="m-auto border border-gray-300 grid grid-cols-3 max-w-screen-xl p-3">
+      <div className="m-auto grid grid-cols-3 max-w-screen-xl p-3">
         <div className="grid grid-rows-2 col-span-2">
           <div>
             <UserProfile />
@@ -69,7 +72,9 @@ export default function OrderPage() {
             </div>
           </div>
           <div>
-            <ActionButton title="Payment" onClick={handlePayment} />
+            {authUser && (
+              <ActionButton title="Payment" onClick={handlePayment} />
+            )}
           </div>
         </div>
       </div>
