@@ -1,8 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/use-auth";
 
 export default function ProfileSideBar() {
   const { pathname } = useLocation();
+  const { authAdmin } = useAuth();
   return (
     <div className="w-[170px] flex flex-col gap-2">
       <h1 className="text-xl font-semibold">User</h1>
@@ -16,15 +18,19 @@ export default function ProfileSideBar() {
           User profile
         </div>
       </Link>
-      <Link to="/profile/address">
-        <div
-          className={`text-sm hover:bg-slate-500 hover:text-white p-2 rounded-md ${
-            pathname == "/profile/address" ? "bg-slate-500 text-white" : ""
-          }`}
-        >
-          Address
-        </div>
-      </Link>
+      {!authAdmin ? (
+        <Link to="/profile/address">
+          <div
+            className={`text-sm hover:bg-slate-500 hover:text-white p-2 rounded-md ${
+              pathname == "/profile/address" ? "bg-slate-500 text-white" : ""
+            }`}
+          >
+            Address
+          </div>
+        </Link>
+      ) : (
+        ""
+      )}
       <Link to="/profile/order">
         <div
           className={`text-sm hover:bg-slate-500 hover:text-white p-2 rounded-md ${

@@ -33,8 +33,8 @@ export default function ProductItemPage() {
     <>
       <div className="flex gap-8 mx-10">
         <Categories />
-        <div className="grid grid-rows-2 gap-4">
-          <div className="w-[860px] border rounded-3xl flex gap-10 p-4">
+        <div className="grid grid-rows-3 gap-4">
+          <div className="w-[860px] border rounded-3xl flex gap-10 p-4 row-span-1">
             <img
               src={getProduct.productImage}
               alt="bean"

@@ -134,6 +134,7 @@ export default function AdminRegisterForm() {
               errorMessage={error.confirmPassword}
             />
             <InputForm
+              type="password"
               placeholder="role"
               name="role"
               value={registerAdmin.role}

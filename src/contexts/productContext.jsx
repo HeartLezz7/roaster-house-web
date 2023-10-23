@@ -27,11 +27,6 @@ export default function ProductContextProvider({ children }) {
     try {
       const res = await axios.get("/product/get");
       setProducts(res.data.products);
-      // const cart = await axios.get("/product/cart/get");
-      // if (!cart) {
-      //   setProductsCart({});
-      // }
-      // setProductsCart(cart);
     } catch (err) {
       console.log(err);
     }
@@ -114,6 +109,7 @@ export default function ProductContextProvider({ children }) {
         deleteProductCart,
         getCart,
         isRefresh,
+        setIsRefresh,
       }}
     >
       {children}

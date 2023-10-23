@@ -8,15 +8,16 @@ import TextMessage from "../../components/TextMessage";
 import axios from "../../configs/axios";
 
 export default function UserProfile() {
-  const { authUser, validateError } = useAuth();
+  const { authUser, authAdmin, validateError } = useAuth();
+  console.log(authAdmin);
 
   const [editProfile, setEditProfile] = useState(false);
   const [error, setError] = useState({});
   const [userInput, setUserInput] = useState({
-    firstName: authUser?.firstName,
-    lastName: authUser?.lastName,
-    email: authUser?.email,
-    phone: authUser?.phone,
+    firstName: authUser?.firstName || authAdmin?.firstName,
+    lastName: authUser?.lastName || authAdmin?.lastName,
+    email: authUser?.email || authAdmin?.lastName,
+    phone: authUser?.phone || authAdmin?.lastName,
   });
 
   useEffect(() => {
@@ -76,33 +77,33 @@ export default function UserProfile() {
           className="min-w-[600px] max-w-3xl"
         >
           <InputForm
-            placeholder={authUser.firstName}
+            placeholder={authUser?.firstName || authAdmin?.firstName}
             name="firstName"
-            value={userInput.firstName}
+            value={userInput?.firstName}
             onChange={handleInput}
             errorInput={error.firstName}
             errorMessage={error.firstName}
           />
           <InputForm
-            placeholder={authUser.lastName}
+            placeholder={authUser?.lastName || authAdmin?.lastName}
             name="lastName"
-            value={userInput.lastName}
+            value={userInput?.lastName}
             onChange={handleInput}
             errorInput={error.lastName}
             errorMessage={error.lastName}
           />
           <InputForm
-            placeholder={authUser.email}
+            placeholder={authUser?.email || authAdmin?.email}
             name="email"
-            value={userInput.email}
+            value={userInput?.email}
             onChange={handleInput}
             errorInput={error.email}
             errorMessage={error.email}
           />
           <InputForm
-            placeholder={authUser.phone}
+            placeholder={authUser?.phone || authAdmin?.phone}
             name="phone"
-            value={userInput.phone}
+            value={userInput?.phone}
             onChange={handleInput}
             errorInput={error.phone}
             errorMessage={error.phone}
@@ -112,10 +113,22 @@ export default function UserProfile() {
       ) : (
         <div className="grid grid-row-3 gap-2">
           <div className="grid grid-rows-3 grid-cols-2 min-w-[600px] max-w-3xl gap-2">
-            <TextMessage grid="1" text={authUser?.firstName || "first name"} />
-            <TextMessage grid="1" text={authUser?.lastName || "last name"} />
-            <TextMessage grid="2" text={authUser?.email || "email"} />
-            <TextMessage grid="2" text={authUser?.phone || "phone"} />
+            <TextMessage
+              grid="1"
+              text={authUser?.firstName || authAdmin?.firstName || "first name"}
+            />
+            <TextMessage
+              grid="1"
+              text={authUser?.lastName || authAdmin?.lastName || "last name"}
+            />
+            <TextMessage
+              grid="2"
+              text={authUser?.email || authAdmin?.email || "email"}
+            />
+            <TextMessage
+              grid="2"
+              text={authUser?.phone || authAdmin?.phone || "phone"}
+            />
           </div>
         </div>
       )}

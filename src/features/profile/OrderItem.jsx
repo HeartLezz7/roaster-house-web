@@ -2,15 +2,16 @@ import { Link } from "react-router-dom";
 import ActionButton from "../../components/ActionButton";
 import axios from "../../configs/axios";
 import useProduct from "../../hooks/use-product";
+import { toast } from "react-toastify";
 
 export default function OrderItem({ id, status }) {
   const { isRefresh, setIsRefresh } = useProduct();
+
   const confirmOrder = async () => {
     try {
-      const confirm = await axios.patch("/payment/userConfirm", {
-        id,
-      });
+      const confirm = await axios.patch("/payment/userConfirm", { id });
       setIsRefresh(!isRefresh);
+      toast.success("Order completed");
       console.log(confirm);
     } catch (err) {
       console.log(err);
@@ -31,7 +32,12 @@ export default function OrderItem({ id, status }) {
         }`}
       >
         <div>{status}</div>
-        <ActionButton title="confirm order" onClick={confirmOrder} />
+
+        {status === "completed" ? (
+          ""
+        ) : (
+          <ActionButton title="confirm order" onClick={confirmOrder} />
+        )}
       </div>
     </div>
   );

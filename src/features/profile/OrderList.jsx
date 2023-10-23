@@ -2,16 +2,18 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import OrderItem from "./OrderItem";
 import useProduct from "../../hooks/use-product";
+import { getAccessToken } from "../../utils/local-storage";
 
 export default function OrderList() {
   const [getAllOrder, setGetAllOrder] = useState([]);
   const { isRefresh } = useProduct();
   useEffect(() => {
-    axios
-      .get("/order/getAll")
-      .then((res) => setGetAllOrder(res.data.getAllOrder));
+    if (getAccessToken()) {
+      axios
+        .get("/order/getAll")
+        .then((res) => setGetAllOrder(res.data.getAllOrder));
+    }
   }, [isRefresh]);
-  console.log(getAllOrder);
   return (
     <div className="grid grid-rows-6  min-w-[600px] max-w-3xl p-2">
       <div className="row-span-1 flex items-center">

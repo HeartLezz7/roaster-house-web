@@ -94,6 +94,7 @@ export default function AdminLogin() {
               errorMessage={error.password}
             />
             <InputForm
+              type="password"
               placeholder="role"
               name="role"
               value={admin.role}

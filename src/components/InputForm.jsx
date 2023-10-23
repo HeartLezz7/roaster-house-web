@@ -8,9 +8,10 @@ export default function InputForm({
   onChange,
   errorInput,
   errorMessage,
+  gap = "2",
 }) {
   return (
-    <div className="flex flex-col gap-2 w-full ">
+    <div className={`flex flex-col gap-${gap} w-full `}>
       <input
         type={type}
         placeholder={placeholder}

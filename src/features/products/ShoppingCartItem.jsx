@@ -19,7 +19,6 @@ export default function ShoppingCartItem({ name, price, amount, img, id }) {
           </div>
           <div>
             <div className="text-sm">name: {name}</div>
-            {/* <div className="text-sm">Roast :{roast}</div> */}
             <div className="text-sm">Amount : {amount} </div>
             <div className="text-sm">price : {amount * price} </div>
           </div>

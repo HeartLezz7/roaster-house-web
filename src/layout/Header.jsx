@@ -48,12 +48,16 @@ export default function Header() {
             <Link to="/">
               <HeaderButton message="logout" onClick={logout} />
             </Link>
-            <div
-              className="flex items-center justify-center w-12 p-1 cursor-pointer"
-              onClick={() => setCartOpen(true)}
-            >
-              <img src={cart} alt="cart" className="w-full" />
-            </div>
+            {authUser ? (
+              <div
+                className="flex items-center justify-center w-12 p-1 cursor-pointer"
+                onClick={() => setCartOpen(true)}
+              >
+                <img src={cart} alt="cart" className="w-full" />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           <>

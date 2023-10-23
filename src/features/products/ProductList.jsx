@@ -4,9 +4,15 @@ import useProduct from "../../hooks/use-product";
 import ProductItem from "./ProductItem";
 import { getAccessToken } from "../../utils/local-storage";
 
+import { Link } from "react-router-dom";
+import CreateProductItem from "./CreateProductItem";
+import { useLocation } from "react-router-dom";
+
 export default function ProductList() {
   const { products, getCart, isRefresh } = useProduct();
   const { authAdmin } = useAuth();
+
+  const { pathname } = useLocation();
 
   useEffect(() => {
     if (getAccessToken()) {
@@ -26,14 +32,10 @@ export default function ProductList() {
           size={item.size}
         />
       ))}
-      {authAdmin && (
-        <div className="flex items-center justify-center w-[340px] h-[440px]  border border-gray-300 rounded-md shadow-lg p-2 cursor-pointer">
-          <div className="bg-gray-300 w-full h-full flex justify-center items-center relative">
-            <div className="text-xl border-2 border-neutral-500 text-neutral-500 w-8 h-8 text-center align-middle rounded-full">
-              +
-            </div>
-          </div>
-        </div>
+      {authAdmin && pathname === "/products" && (
+        <Link to="/products/create">
+          <CreateProductItem />
+        </Link>
       )}
     </div>
   );

@@ -77,41 +77,41 @@ export default function AddressForm() {
       {editAddress ? (
         <form onSubmit={handleSubmitAddress} className="w-96">
           <InputForm
-            placeholder={address.addressInfo || "address"}
+            placeholder={address?.addressInfo || "address"}
             name="addressInfo"
-            value={addressInput.addressInfo}
+            value={addressInput?.addressInfo}
             onChange={handleInput}
             errorInput={error.addressInfo}
             errorMessage={error.addressInfo}
           />
           <InputForm
-            placeholder={address.subDistrict || "sub_district"}
+            placeholder={address?.subDistrict || "sub_district"}
             name="subDistrict"
-            value={addressInput.subDistrict}
+            value={addressInput?.subDistrict}
             onChange={handleInput}
             errorInput={error.subDistrict}
             errorMessage={error.subDistrict}
           />
           <InputForm
-            placeholder={address.district}
+            placeholder={address?.district}
             name="district"
-            value={addressInput.district || "district"}
+            value={addressInput?.district || "district"}
             onChange={handleInput}
             errorInput={error.district}
             errorMessage={error.district}
           />
           <InputForm
-            placeholder={address.province || "province"}
+            placeholder={address?.province || "province"}
             name="province"
-            value={addressInput.province}
+            value={addressInput?.province}
             onChange={handleInput}
             errorInput={error.province}
             errorMessage={error.province}
           />
           <InputForm
-            placeholder={address.postcode || "postcode"}
+            placeholder={address?.postcode || "postcode"}
             name="postcode"
-            value={addressInput.postcode}
+            value={addressInput?.postcode}
             onChange={handleInput}
             errorInput={error.postcode}
             errorMessage={error.postcode}
@@ -123,15 +123,15 @@ export default function AddressForm() {
           <div className="grid grid-rows-3 grid-cols-2 min-w-[600px] max-w-3xl gap-2">
             <TextMessage
               grid="2"
-              text={addressInput.addressInfo || "Address"}
+              text={addressInput?.addressInfo || "Address"}
             />
             <TextMessage
               grid="1"
-              text={addressInput.subDistrict || "Sub district"}
+              text={addressInput?.subDistrict || "Sub district"}
             />
-            <TextMessage grid="1" text={addressInput.district || "District"} />
-            <TextMessage grid="2" text={addressInput.province || "Province"} />
-            <TextMessage grid="2" text={addressInput.postcode || "Postcode"} />
+            <TextMessage grid="1" text={addressInput?.district || "District"} />
+            <TextMessage grid="2" text={addressInput?.province || "Province"} />
+            <TextMessage grid="2" text={addressInput?.postcode || "Postcode"} />
           </div>
         </div>
       )}
