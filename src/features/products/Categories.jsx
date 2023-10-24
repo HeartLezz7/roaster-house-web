@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
+import useAuth from "../../hooks/use-auth";
 import useProduct from "../../hooks/use-product";
 
 export default function Categories() {
   const { filterProduct } = useProduct();
+  const { authAdmin } = useAuth();
   return (
     <div className="w-[170px] flex flex-col gap-2">
       <div className="text-xl font-semibold">Categories</div>
@@ -36,6 +39,13 @@ export default function Categories() {
       >
         Dark Roast
       </div>
+      {authAdmin && (
+        <Link to="/products/list">
+          <div className="text-sm border bg-blue-600 text-white hover:bg-blue-500 hover:text-white cursor-pointer p-2 rounded-md">
+            Products list
+          </div>
+        </Link>
+      )}
     </div>
   );
 }

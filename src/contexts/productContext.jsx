@@ -18,7 +18,7 @@ export default function ProductContextProvider({ children }) {
     if (getAccessToken()) {
       getCart();
     }
-  }, []);
+  }, [isRefresh]);
 
   const findProduct = async (productId) => {
     return await axios.get(`/product/${productId}`);
@@ -41,6 +41,10 @@ export default function ProductContextProvider({ children }) {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const updateProduct = async (productId, data) => {
+    await axios.patch(`/product/update/${productId}`, data);
   };
 
   const getCart = async () => {
@@ -105,6 +109,11 @@ export default function ProductContextProvider({ children }) {
     setIsRefresh(!isRefresh);
   };
 
+  const deleteProduct = async (productId) => {
+    await axios.delete(`/product/${productId}`);
+    setIsRefresh(!isRefresh);
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -124,6 +133,9 @@ export default function ProductContextProvider({ children }) {
         filteredProduct,
         setFilteredProduct,
         filterProduct,
+        deleteProduct,
+        updateProduct,
+        getProducts,
       }}
     >
       {children}

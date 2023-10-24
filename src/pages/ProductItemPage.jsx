@@ -7,14 +7,19 @@ import ActionButton from "../components/ActionButton";
 import ProductContent from "../features/products/ProductContent";
 import ShoppingCart from "../features/products/ShoppingCart";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/use-auth";
 
 export default function ProductItemPage() {
   const { productId } = useParams();
 
+  const { authAdmin } = useAuth();
   const { findProduct, addProductstCart } = useProduct();
 
   const [getProduct, setGetProduct] = useState({});
   const [amount, setAmount] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleProduct = async () => {
@@ -41,6 +46,16 @@ export default function ProductItemPage() {
               className="w-96 rounded-3xl"
             />
             <div className="w-full flex flex-col justify-between  ">
+              {authAdmin && (
+                <div className="flex justify-end">
+                  <div
+                    onClick={() => navigate(`/products/update/${productId}`)}
+                    className="text-sm border bg-blue-600 text-white hover:bg-blue-500 hover:text-white cursor-pointer p-2 rounded-md"
+                  >
+                    edit
+                  </div>
+                </div>
+              )}
               <div>
                 <h1 className="font-semibold text-2xl ">
                   {getProduct.productName}

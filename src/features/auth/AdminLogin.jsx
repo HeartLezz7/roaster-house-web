@@ -20,7 +20,7 @@ export default function AdminLogin() {
 
   const navigate = useNavigate();
 
-  const loginSchema = Joi.object({
+  const adminLoginSchema = Joi.object({
     emailOrUsername: Joi.alternatives([
       Joi.string()
         .pattern(/@(gmail|hotmail)\.com$/)
@@ -33,7 +33,10 @@ export default function AdminLogin() {
       .pattern(/^[a-zA-Z0-9]{6,30}$/)
       .trim()
       .required(),
-    role: Joi.string().trim().required(),
+    role: Joi.string()
+      .trim()
+      .pattern(/^[a-zA-Z0-9]{0,5}$/)
+      .required(),
   });
 
   const handleInput = (e) => {
@@ -43,7 +46,7 @@ export default function AdminLogin() {
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     try {
-      const error = validateError(loginSchema, admin);
+      const error = validateError(adminLoginSchema, admin);
       if (error) {
         setError(error);
         return toast.error(error);
@@ -55,6 +58,7 @@ export default function AdminLogin() {
       setError({});
       setStateLoading(true);
       await adminLogin(admin);
+      toast.success("Admin login SUCCESS");
       navigate("/");
     } catch (err) {
       toast.error("Access Denined");

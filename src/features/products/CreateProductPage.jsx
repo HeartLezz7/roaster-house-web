@@ -9,8 +9,20 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import useProduct from "../../hooks/use-product";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export default function CreateProductPage() {
+  const { productId } = useParams();
+
+  useEffect(() => {
+    if (productId) {
+      findProduct(productId).then((res) => {
+        setInput(res.data.product);
+      });
+    }
+  }, []);
+
   const [input, setInput] = useState({
     productName: "",
     tastingNote: "",
@@ -21,11 +33,11 @@ export default function CreateProductPage() {
     price: "",
   });
   const [error, setError] = useState({});
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null || input?.productImage);
   const fileItem = useRef(null);
 
   const { validateError } = useAuth();
-  const { getProducts } = useProduct();
+  const { getProducts, findProduct, updateProduct } = useProduct();
 
   const navigate = useNavigate();
 
@@ -43,7 +55,7 @@ export default function CreateProductPage() {
     origin: Joi.string().trim(),
   });
 
-  const createProduct = async () => {
+  const handleProduct = async () => {
     try {
       const formData = new FormData();
       const error = validateError(productSchema, input);
@@ -70,6 +82,33 @@ export default function CreateProductPage() {
     }
   };
 
+  const handleUpdateProduct = async () => {
+    try {
+      const { error } = validateError(productSchema, input);
+      if (error) {
+        return setError(error);
+      }
+      const formData = new FormData();
+      if (file) {
+        formData.append("productImage", file);
+        formData.append("productName", input.productName);
+        formData.append("tastingNote", input.tastingNote);
+        formData.append("roastLevel", input.roastLevel);
+        formData.append("process", input.process);
+        formData.append("size", input.size);
+        formData.append("price", input.price);
+        formData.append("origin", input.origin);
+      }
+      setError({});
+      await updateProduct(productId, formData);
+      toast.success("UPDATED");
+      getProducts();
+      navigate("/products");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="grid grid-cols-5 w-[600px] h-[450px] gap-1 border border-gray-300 rounded-3xl shadow-lg m-auto">
       <div
@@ -84,9 +123,11 @@ export default function CreateProductPage() {
           />
         ) : (
           <img
-            src={plus}
+            src={input?.productImage || plus}
             alt="bean"
-            className="h-10 rounded-l-3xl text-slate-400"
+            className={`${
+              input?.productImage ? "h-full" : "h-10"
+            } rounded-l-3xl text-slate-400`}
           />
         )}
         <input
@@ -102,7 +143,7 @@ export default function CreateProductPage() {
       </div>
       <div className="w-full flex flex-col justify-center gap-2 items-center col-span-2 p-2">
         <InputForm
-          placeholder="productName"
+          placeholder={input?.productName || "productName"}
           name="productName"
           value={input.productName}
           onChange={handleInput}
@@ -112,7 +153,7 @@ export default function CreateProductPage() {
           gap="0"
         />
         <InputForm
-          placeholder="tastingNote"
+          placeholder={input?.tastingNote || "tastingNote"}
           name="tastingNote"
           value={input.tastingNote}
           onChange={handleInput}
@@ -122,7 +163,7 @@ export default function CreateProductPage() {
           gap="0"
         />
         <InputForm
-          placeholder="origin"
+          placeholder={input?.origin || "origin"}
           name="origin"
           value={input.origin}
           onChange={handleInput}
@@ -136,7 +177,7 @@ export default function CreateProductPage() {
           name="roastLevel"
           onChange={handleInput}
         >
-          <option value="" placeholder="roastLevel"></option>
+          <option value={input?.roastLevel || ""}>{input?.roastLevel}</option>
           <option value="light">light</option>
           <option value="medium">medium</option>
           <option value="medium_dark">medium_dark</option>
@@ -149,7 +190,7 @@ export default function CreateProductPage() {
           onChange={handleInput}
           placeholder="process"
         >
-          <option value="" placeholder="process"></option>
+          <option value={input?.process || ""}>{input?.process}</option>
           <option value="natural">natural</option>
           <option value="wash">wash</option>
           <option value="honey">honey</option>
@@ -157,7 +198,7 @@ export default function CreateProductPage() {
           <option value="wet">wet</option>
         </select>
         <InputForm
-          placeholder="size"
+          placeholder={input?.size || "size"}
           name="size"
           value={input.size}
           onChange={handleInput}
@@ -167,7 +208,7 @@ export default function CreateProductPage() {
           gap="0"
         />
         <InputForm
-          placeholder="price"
+          placeholder={input?.price || "price"}
           name="price"
           value={input.price}
           onChange={handleInput}
@@ -176,7 +217,11 @@ export default function CreateProductPage() {
           errorMessage={error.price}
           gap="0"
         />
-        <ActionButton title="Create" onClick={createProduct} />
+        {input?.productImage ? (
+          <ActionButton title="Update" onClick={handleUpdateProduct} />
+        ) : (
+          <ActionButton title="Create" onClick={handleProduct} />
+        )}
       </div>
     </div>
   );

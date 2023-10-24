@@ -4,6 +4,7 @@ import useAuth from "../../hooks/use-auth";
 import Joi from "joi";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const [registerInput, setRegisterInput] = useState({
@@ -54,12 +55,13 @@ export default function RegisterForm() {
       }
       setError({});
       setStateLoading(true);
-      register(registerInput);
+      await register(registerInput);
+      toast.success("Register SUCCESS");
+      navigate("/");
     } catch (err) {
       console.log(err);
     } finally {
       setStateLoading(false);
-      navigate("/");
     }
   };
   return (

@@ -93,9 +93,9 @@ export default function AddressForm() {
             errorMessage={error.subDistrict}
           />
           <InputForm
-            placeholder={address?.district}
+            placeholder={address?.district || "district"}
             name="district"
-            value={addressInput?.district || "district"}
+            value={addressInput?.district}
             onChange={handleInput}
             errorInput={error.district}
             errorMessage={error.district}

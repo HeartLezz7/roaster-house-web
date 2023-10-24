@@ -26,7 +26,6 @@ export default function Footer() {
             <Link to="/">
               <span>ABOUT US</span>
             </Link>
-            <span>LOCATION MAP</span>
           </div>
           <div className="flex flex-col gap-3">
             <FooterContact title={"XXX-XXXXXX"} src={phone} />

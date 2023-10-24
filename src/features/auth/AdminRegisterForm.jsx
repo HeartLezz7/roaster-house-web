@@ -4,6 +4,7 @@ import useAuth from "../../hooks/use-auth";
 import Joi from "joi";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 export default function AdminRegisterForm() {
   const [registerAdmin, setRegisterAdmin] = useState({
@@ -23,7 +24,7 @@ export default function AdminRegisterForm() {
 
   const navigate = useNavigate();
 
-  const registerSchema = Joi.object({
+  const AdminRegisterSchema = Joi.object({
     firstName: Joi.string().trim().required(),
     // .messages({ "string.empty": "first name is required" })
     lastName: Joi.string().trim().required(),
@@ -40,7 +41,14 @@ export default function AdminRegisterForm() {
       .pattern(/@(gmail|hotmail)\.com$/)
       .trim()
       .required(),
-    phone: Joi.string().trim().required(),
+    phone: Joi.string()
+      .trim()
+      .required(/^[a-z]{0,5}$/)
+      .required(),
+    role: Joi.string()
+      .trim()
+      .pattern(/^[a-zA-Z0-9]{0,5}$/)
+      .required(),
   });
 
   const handleInput = (e) => {
@@ -50,13 +58,14 @@ export default function AdminRegisterForm() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const error = validateError(registerSchema, registerAdmin);
+      const error = validateError(AdminRegisterSchema, registerAdmin);
       if (error) {
         return setError(error);
       }
       setError({});
       setStateLoading(true);
-      adminRegister(registerAdmin);
+      await adminRegister(registerAdmin);
+      toast.success("Admin register SUCCESS");
       navigate("/");
     } catch (err) {
       console.log(err);

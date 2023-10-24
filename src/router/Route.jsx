@@ -14,6 +14,7 @@ import PaymentPage from "../pages/PaymentPage";
 import OrderPage from "../pages/OrderPage";
 import OrderList from "../features/profile/OrderList";
 import CreateProductPage from "../features/products/CreateProductPage";
+import AdminProductList from "../features/products/adminProductList";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,8 @@ const router = createBrowserRouter([
       { path: "products", element: <ProductPage /> },
       { path: "products/:productId", element: <ProductItemPage /> },
       { path: "products/create", element: <CreateProductPage /> },
+      { path: "products/update/:productId", element: <CreateProductPage /> },
+      { path: "products/list", element: <AdminProductList /> },
       { path: "register", element: <RegisterPage /> },
       {
         path: "profile",
