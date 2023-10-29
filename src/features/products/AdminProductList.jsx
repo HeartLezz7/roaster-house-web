@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import useProduct from "../../hooks/use-product";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +13,7 @@ const Button = ({ title, onClick, color, hovor }) => {
 };
 
 export default function AdminProductList() {
-  const { deleteProduct, products, getProducts } = useProduct();
+  const { deleteProduct, products } = useProduct();
   const navigate = useNavigate();
 
   return (
@@ -39,8 +38,6 @@ export default function AdminProductList() {
                   title="delete"
                   onClick={() => {
                     deleteProduct(item.id);
-                    getProducts();
-                    toast.error("DELETED");
                   }}
                   color="bg-red-600"
                   hovor="bg-red-500"

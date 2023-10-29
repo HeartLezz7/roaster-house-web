@@ -111,7 +111,7 @@ export default function ProductContextProvider({ children }) {
 
   const deleteProduct = async (productId) => {
     await axios.delete(`/product/${productId}`);
-    setIsRefresh(!isRefresh);
+    await getProducts();
   };
 
   return (
