@@ -9,7 +9,7 @@ import CreateProductItem from "./CreateProductItem";
 import { useLocation } from "react-router-dom";
 
 export default function ProductList() {
-  const { filteredProduct, getCart, isRefresh } = useProduct();
+  const { filteredProduct, products, getCart, isRefresh } = useProduct();
   const { authAdmin } = useAuth();
 
   const { pathname } = useLocation();
@@ -23,8 +23,7 @@ export default function ProductList() {
   function checkProduct() {
     if (pathname !== "/products") {
       let homeProducts = [];
-      homeProducts = filteredProduct.slice(0, 4);
-      console.log(homeProducts);
+      homeProducts = products.slice(0, 4);
       return homeProducts;
     } else {
       return filteredProduct;

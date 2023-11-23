@@ -10,7 +10,7 @@ import useProduct from "../hooks/use-product";
 export default function Header() {
   const getToken = getAccessToken();
 
-  const { logout, setOpen, authUser, authAdmin } = useAuth();
+  const { logout, setOpen, authUser, authAdmin, filterProduct } = useAuth();
 
   const { setCartOpen } = useProduct();
 
@@ -31,11 +31,16 @@ export default function Header() {
         </Link>
         <nav className="flex gap-6">
           <Link to="/">
-            <span className="cursor-pointer">Home</span>
+            <div className="cursor-pointer">Home</div>
           </Link>
 
-          <Link to="/products">
-            <span className="cursor-pointer">Products</span>
+          <Link
+            to="/products"
+            onClick={() => {
+              filterProduct("all");
+            }}
+          >
+            <div className="cursor-pointer">Products</div>
           </Link>
         </nav>
       </div>
